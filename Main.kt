@@ -1,16 +1,18 @@
 package calculator
 
+import calculator.calculator.CalculatorV6
+
 fun main() {
-    val calculator = Calculator()
+    val container = Container(CalculatorV6())
 
     while (true) {
         try {
-            calculator.inputString = readLine()!!.toString()
+            container.inputString = readLine()!!.toString()
 
             when {
-                calculator.inputString.isEmpty() -> continue
-                calculator.inputString.startsWith('/') -> {
-                    when (calculator.inputString) {
+                container.inputString.isEmpty() -> continue
+                container.inputString.startsWith('/') -> {
+                    when (container.inputString) {
                         "/exit" -> {
                             println("Bye!")
                             break
@@ -18,14 +20,14 @@ fun main() {
                         "/help" -> {
                             println(
                                 "The program calculates mathematical expressions" +
-                                        "Only add/subtract operations are supported"
+                                "Only add/subtract operations are supported"
                             )
                         }
                         else -> throw UnknownCommandException()
                     }
                 }
-                calculator.inputString.contains('=') -> calculator.processAssignment()
-                else -> println(calculator.processExpression())
+                container.inputString.contains('=') -> container.processAssignment()
+                else -> container.processExpression()
             }
         } catch (unknownVariableException : UnknownVariableException) {
             println("Unknown variable")
