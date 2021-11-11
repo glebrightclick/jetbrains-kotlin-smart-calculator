@@ -1,34 +1,40 @@
 package calculator
 
 import calculator.calculator.CalculatorV6
+import calculator.calculator.CalculatorV7
+import calculator.checker.CheckerV7
 
 fun main() {
-    val container = Container(CalculatorV6())
+    val checker = CheckerV7()
+    val container = Container(CalculatorV7(checker))
 
     while (true) {
         try {
-            container.inputString = readLine()!!.toString()
+            val inputString = readLine()!!.toString()
+            container.inputString = inputString
 
             when {
-                container.inputString.isEmpty() -> continue
-                container.inputString.startsWith('/') -> {
-                    when (container.inputString) {
+                inputString.isEmpty() -> continue
+                inputString.startsWith('/') -> {
+                    when (inputString) {
                         "/exit" -> {
                             println("Bye!")
                             break
                         }
                         "/help" -> {
                             println(
-                                "The program calculates mathematical expressions" +
-                                "Only add/subtract operations are supported"
+                                "The program calculates mathematical expressions\n" +
+                                        "Only add/subtract operations are supported"
                             )
                         }
                         else -> throw UnknownCommandException()
                     }
                 }
-                container.inputString.contains('=') -> container.processAssignment()
+                inputString.contains('=') -> container.processAssignment()
                 else -> container.processExpression()
             }
+        } catch (invalidExpressionException : InvalidExpressionException) {
+            println("Invalid Expression")
         } catch (unknownVariableException : UnknownVariableException) {
             println("Unknown variable")
         } catch (unknownCommandException : UnknownCommandException) {
@@ -48,3 +54,4 @@ class UnknownVariableException() : Exception()
 class WrongExpressionException() : Exception()
 class InvalidAssignmentException() : Exception()
 class InvalidIdentifierException() : Exception()
+class InvalidExpressionException() : Exception()

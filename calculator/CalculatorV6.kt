@@ -3,8 +3,9 @@ package calculator.calculator
 import calculator.Operation
 import calculator.UnknownVariableException
 import calculator.WrongExpressionException
+import calculator.checker.Checker
 
-class CalculatorV6() : Calculator() {
+class CalculatorV6(checker: Checker) : Calculator(checker) {
     private fun checkResult(result : Int?, storedOperation : Operation?) : Boolean =
         result !== null && storedOperation === null
 
